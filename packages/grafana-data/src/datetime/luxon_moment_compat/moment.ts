@@ -758,7 +758,8 @@ function normalizeZone(zone: string | Zone): Zone {
   }
 
   const name = normalizeZoneName(zone);
-  if (name === 'UTC') {
+  // moment-timezone falls back to UTC for zones it has no data for (e.g. 'default')
+  if (name === 'UTC' || !IANAZone.isValidZone(name)) {
     return FixedOffsetZone.instance(0);
   }
 
